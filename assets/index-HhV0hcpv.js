@@ -1170,7 +1170,7 @@ Catches, cards, binders, teams and settings will be deleted from this phone, and
         ${Qw?"":`<div class="hint">${c("aideSansDonnees")}</div>`}
         <!-- Repère de build. Les mises à jour arrivant sans fil par SideStore, c'est
              le seul moyen de vérifier d'un coup d'œil quelle version tourne. -->
-        <div class="version">vdev-bb8edda</div>
+        <div class="version">vdev-a6ace61</div>
       </footer>
     `));const V=z.querySelector(".gens");V&&(V.scrollLeft=u),C.pris=null,a9(),C.ongletTenu===null&&((U=z.querySelector('.gen-tab[aria-selected="true"]'))==null||U.scrollIntoView({block:"nearest",inline:"center"}))}function a9(){const e=z.querySelector(".box.papered"),o=e==null?void 0:e.querySelector(".box-paper"),a=e==null?void 0:e.querySelector(".grid");if(!o||!a)return;const t=e.getBoundingClientRect(),m=a.getBoundingClientRect();if(!t.height||!m.height)return;const i=s9(o.dataset.gen,o.dataset.size),l=(m.left-t.left)/t.width,h=m.width/t.width,p=(m.top-t.top)/t.height,v=m.height/t.height;o.style.left=`${(l+i.x/100*h)*100}%`,o.style.width=`${i.w/100*h*100}%`,o.style.top=`${(p+i.y/100*v)*100}%`,o.style.height=`${i.h/100*v*100}%`}const t9="pcbox.calage",n9=new Map(Object.entries(Cn(t9,{})));function m9(e,o){return Xi[`${e}:${o}`]?`${e}:${o}`:Xi[e]?String(e):`${e}:${o}`}function s9(e,o){const a=m9(e,o);return n9.get(a)??Xi[a]??Xi[e]??G6}function c9(){const e=Ge('<nav class="gens" role="tablist"></nav>');return C.ordreOnglets.forEach((o,a)=>{const t=oa[o];e.append(Ge(`
       <button class="gen-tab ${t.remake?"remake":""} ${o===C.ongletTenu?"tenu":""}"
@@ -2031,7 +2031,7 @@ Catches, cards, binders, teams and settings will be deleted from this phone, and
       ${a.map(([m,i])=>`<option value="${S(m)}" ${m===t?"selected":""}>${S(i)}</option>`).join("")}
     </select>
     ${fe.bas}
-  </label>`,Ev=()=>`dev-bb8edda${Lo()?" · dev":""}`,Vv=e=>e<1048576?c("regKo",Math.max(1,Math.round(e/1024))):c("regMo",Fc(e/1048576));function Fv(){const e=_a(),o=!!ge.user,a=ge.profil,t=o?a==null?void 0:a.avatar:null,m=t?`<img src="${Fe.still(_o(nt(t)),!!(a!=null&&a.avatar_shiny))}" alt="" ${xo(Ie(nt(t)),!1)} />`:Ne.profil,i=o?(a==null?void 0:a.pseudo)||c("compte"):c(e?"regInvite":"regCollectionLocale"),l=o?ge.user.email||"":c(e?"regInviteSous":"regLocaleSous"),h=e?"button":"div";return`
+  </label>`,Ev=()=>`dev-a6ace61${Lo()?" · dev":""}`,Vv=e=>e<1048576?c("regKo",Math.max(1,Math.round(e/1024))):c("regMo",Fc(e/1048576));function Fv(){const e=_a(),o=!!ge.user,a=ge.profil,t=o?a==null?void 0:a.avatar:null,m=t?`<img src="${Fe.still(_o(nt(t)),!!(a!=null&&a.avatar_shiny))}" alt="" ${xo(Ie(nt(t)),!1)} />`:Ne.profil,i=o?(a==null?void 0:a.pseudo)||c("compte"):c(e?"regInvite":"regCollectionLocale"),l=o?ge.user.email||"":c(e?"regInviteSous":"regLocaleSous"),h=e?"button":"div";return`
     <${h} class="reg-profil ${kc()?"plus":""}" ${e?'data-reg-page="compte"':""}>
       <span class="reg-profil-haut">
         <span class="reg-profil-photo ${t?"":"vide"}">${m}</span>
