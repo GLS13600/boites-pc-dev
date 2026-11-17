@@ -1,5 +1,5 @@
 // Généré par scripts/build-sw.mjs — ne pas éditer à la main.
-const CACHE = 'unydex-20261116210624';
+const CACHE = 'unydex-20261117083023';
 const SHELL = [
   "./",
   "./index.html",
