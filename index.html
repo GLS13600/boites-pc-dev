@@ -62,7 +62,7 @@
         }
       } catch (e) {}
     </script>
-    <script type="module" crossorigin src="./assets/index-HNLB_tqN.js"></script>
+    <script type="module" crossorigin src="./assets/index-BtPGidCt.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-ComLyFTD.css">
   </head>
   <body>
@@ -78,8 +78,7 @@
             derrière l'icône, « Unydex » monte lettre à lettre (le y en rouge), la devise suit ;
          4. pendant le chargement, une ligne de scan balaie l'icône, la barre se remplit, les
             messages défilent (main.js pilote `window.__lancement`) ;
-         5. PRÊT : le viseur s'ouvre jusqu'aux coins de l'écran, le reste s'efface, l'appli
-            apparaît dans le cadre.
+         5. PRÊT : une demi-seconde de plus pour lire, puis tout s'efface et l'écran part.
          Tout est en CSS, à plat (pas de dégradé ni d'ombre colorée) ; mouvement réduit : un
          simple fondu. -->
     <style>
@@ -155,9 +154,8 @@
       [data-icone="rouge"] .lanc-scan { background: #fff; }
       @keyframes lancScan { 0% { opacity: .45; transform: translateY(0); } 100% { opacity: .45; transform: translateY(calc(var(--tuile) * .5)); } }
 
-      /* Les coins du viseur, ceux du logo : centrés sur l'icône (16,4 % de son bord), ils
-         s'ouvriront jusqu'aux coins de l'écran. `--x` / `--y` : la distance au centre de
-         l'icône ; à la fin, le script mesure celle des coins de l'écran (--fg, --fd, --fh, --fb). */
+      /* Les coins du viseur, ceux du logo : centrés sur l'icône (16,4 % de son bord).
+         `--x` / `--y` : leur distance au centre de l'icône. */
       .lanc-coin {
         --x: calc(var(--tuile) * .336); --y: var(--x);
         position: absolute; left: 50%; top: 50%; width: 15px; height: 15px; margin: -7.5px 0 0 -7.5px;
@@ -165,7 +163,6 @@
         transform: translate(calc(var(--sx) * var(--x)), calc(var(--sy) * var(--y)));
         z-index: 2;
         animation: lancCoin 420ms cubic-bezier(.2,.9,.25,1.2) 300ms both;
-        transition: transform 560ms cubic-bezier(.7,0,.2,1), width 560ms cubic-bezier(.7,0,.2,1), height 560ms cubic-bezier(.7,0,.2,1), margin 560ms cubic-bezier(.7,0,.2,1), border-color 300ms ease;
       }
       .lanc-coin.hg { --sx: -1; --sy: -1; border-top-width: 3px; border-left-width: 3px; border-top-left-radius: 6px; }
       .lanc-coin.hd { --sx: 1; --sy: -1; border-top-width: 3px; border-right-width: 3px; border-top-right-radius: 6px; }
@@ -200,21 +197,10 @@
       }
       .lanc-passer.vu { opacity: 1; transform: none; }
 
-      /* PRÊT : le viseur s'ouvre jusqu'aux coins de l'écran, le reste s'efface ; l'appli
-         apparaîtra dans le cadre. */
-      .lanc-contenu { display: grid; justify-items: center; }
-      /* Seuls l'icône, les cartes et le texte s'effacent : les coins restent et s'ouvrent. */
-      #lancement.fin .lanc-tuile, #lancement.fin .lanc-carte, #lancement.fin .lanc-nom,
-      #lancement.fin .lanc-devise, #lancement.fin .lanc-bas {
-        opacity: 0; transform: scale(.92);
-        transition: opacity 260ms ease, transform 420ms cubic-bezier(.6,0,.4,1);
-        animation: none;
-      }
-      #lancement.fin .lanc-coin { width: 30px; height: 30px; margin: -15px 0 0 -15px; border-color: var(--lc-rouge); animation: none; }
-      #lancement.fin .lanc-coin.hg { transform: translate(calc(-1 * var(--fg)), calc(-1 * var(--fh))); }
-      #lancement.fin .lanc-coin.hd { transform: translate(var(--fd), calc(-1 * var(--fh))); }
-      #lancement.fin .lanc-coin.bg { transform: translate(calc(-1 * var(--fg)), var(--fb)); }
-      #lancement.fin .lanc-coin.bd { transform: translate(var(--fd), var(--fb)); }
+      /* PRÊT : tout s'efface ensemble, viseur compris (son ouverture jusqu'aux coins de
+         l'écran a été retirée le 21/11/2026, à la demande), puis l'écran part en fondu. */
+      .lanc-contenu { display: grid; justify-items: center; transition: opacity 280ms ease, transform 380ms cubic-bezier(.6,0,.4,1); }
+      #lancement.fin .lanc-contenu { opacity: 0; transform: scale(.96); }
 
       @media (prefers-reduced-motion: reduce) {
         #lancement *, #lancement *::before, #lancement *::after { animation: none !important; transition: none !important; }
@@ -329,20 +315,13 @@
             detail.textContent = '';
             if (vite) { part(); return; }
             if (reduit) { avantDepart(part); return; }
-            // Le logo s'est déployé en entier (≈ 1,1 s), puis le viseur s'ouvre.
-            var attente = Math.max(0, 1250 - (performance.now() - t0));
+            // Le logo s'est déployé en entier (≈ 1,1 s), PUIS une demi-seconde de plus pour
+            // lire « Unydex » et ce qui est dessous (21/11/2026, à la demande).
+            var attente = Math.max(0, 1250 - (performance.now() - t0)) + 500;
             setTimeout(function () {
-              var r = el.querySelector('.lanc-tuile').getBoundingClientRect();
-              var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-              var cs = getComputedStyle(el), marge = 30;
-              var haut = parseFloat(cs.paddingTop) || 0, bas = parseFloat(cs.paddingBottom) || 0;
-              el.style.setProperty('--fg', (cx - marge) + 'px');
-              el.style.setProperty('--fd', (innerWidth - cx - marge) + 'px');
-              el.style.setProperty('--fh', (cy - haut - marge) + 'px');
-              el.style.setProperty('--fb', (innerHeight - cy - bas - marge) + 'px');
               el.classList.add('fin');
-              note('viseur ouvert');
-              setTimeout(function () { avantDepart(part); }, 520);
+              note('fondu');
+              setTimeout(function () { avantDepart(part); }, 300);
             }, attente);
           },
           montreContinuer: function () {
