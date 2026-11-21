@@ -26,7 +26,7 @@
         font: 800 10px/1 'Urbanist', system-ui, sans-serif; letter-spacing: .14em; }
     </style>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://assets.tcgdex.net https://images.pokemontcg.io https://images.scrydex.com; media-src 'self' blob:; font-src 'self'; worker-src 'self' blob:; connect-src 'self' blob: data: https://api.tcgdex.net https://api.mistral.ai https://api.frankfurter.dev https://surhoceznpqkpgllitnp.supabase.co wss://surhoceznpqkpgllitnp.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://assets.tcgdex.net https://images.pokemontcg.io https://images.scrydex.com; media-src 'self' blob:; font-src 'self'; worker-src 'self' blob:; connect-src 'self' blob: data: https://api.tcgdex.net https://api.mistral.ai https://api.frankfurter.dev https://surhoceznpqkpgllitnp.supabase.co wss://surhoceznpqkpgllitnp.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#d6453c" />
@@ -39,6 +39,21 @@
     <link rel="apple-touch-icon" href="icone-180.png" />
     <link rel="icon" type="image/svg+xml" href="icon.svg" />
     <title>Unydex DEV</title>
+    <!-- Anti-encadrement (audit du 21/11/2026) : GitHub Pages n'envoie aucun en-tête, et
+         `frame-ancestors` ne vaut pas dans une balise meta. Encadrée par une page d'une AUTRE
+         origine (« clickjacking » : faire toucher à l'aveugle), l'appli ne s'affiche pas et tente
+         de prendre toute la fenêtre. Un cadre de la même origine reste permis : la fabrique de
+         vidéos (marketing/outils/scene.html) filme l'appli dans un iframe. -->
+    <script>
+      (function () {
+        if (window.top === window.self) return;
+        var meme = false;
+        try { meme = window.top.location.origin === location.origin; } catch (e) { /* autre origine */ }
+        if (meme) return;
+        document.documentElement.style.display = 'none';
+        try { window.top.location.replace(location.href); } catch (e) { /* navigateur qui refuse */ }
+      })();
+    </script>
     <!-- Le thème est posé AVANT le premier rendu : appliqué seulement au chargement de
          main.js, l'écran clignotait en clair le temps que le module se charge. -->
     <script>
@@ -62,8 +77,8 @@
         }
       } catch (e) {}
     </script>
-    <script type="module" crossorigin src="./assets/index-BtPGidCt.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ComLyFTD.css">
+    <script type="module" crossorigin src="./assets/index-C79qt_uo.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BFrc_1Ja.css">
   </head>
   <body>
     <!-- L'ÉCRAN DE LANCEMENT. Il est ICI, dans la page, et non dans main.js : il paraît dès la
