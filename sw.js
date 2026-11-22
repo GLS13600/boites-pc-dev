@@ -1,13 +1,13 @@
 // Généré par scripts/build-sw.mjs — ne pas éditer à la main.
-const CACHE = 'unydex-20261122215443';
+const CACHE = 'unydex-20261122233602';
 const SHELL = [
   "./",
   "./index.html",
   "./icon.svg",
   "./assets/compte-natif-CB_N_ZW_.js",
   "./assets/index-Bu_klARd.css",
-  "./assets/index-Cigjdotw.js",
   "./assets/index-D5bMjAqh.js",
+  "./assets/index-DlYHoXgE.js",
   "./assets/learnsets-vg-yNECzyJ5.js",
   "./assets/scan-worker-RLWO-DSL.js"
 ];
